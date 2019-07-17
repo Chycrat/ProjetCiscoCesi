@@ -19,27 +19,35 @@ class StatutController extends Controller
         $connection = ssh2_connect( $ip, 22);
         //dd($connection);
         ssh2_auth_password($connection, $username, $password);
-
-        $cmds = ['enable', '3d2R', 'show vlan brief'];
-        $cisco = "enable 3d2R show running";
-
-//        $stream = ssh2_exec($connection, "enable");
-        fwrite($connection,"enable\n");
-        usleep(250000);
-        fwrite($connection,"3d2R\n");
-        usleep(250000);
-//        $errorStream =  fwrite($connection,"3d2R\n");
-//        sleep(2);
-//        $stream = ssh2_exec($connection, "3d2R");
-//        $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
-        $stream =  fwrite($connection,"3d2R\n");
+        $cisco = "show vlan brief";
+        $stream = ssh2_exec($connection, $cisco);
         $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
-
-//        stream_set_blocking($errorStream, true);
-//        stream_set_blocking($stream, true);
+        stream_set_blocking($errorStream, true);
+        stream_set_blocking($stream, true);
         $output = stream_get_contents($stream);
-dd($output);
         $json = [];
+
+        $lignes = explode("\n", $output);
+        foreach ( $lignes as $key => $ligne ){
+            if ($key < 4) continue;
+            $champ1 = substr($ligne,0,4);
+            if ( trim(preg_replace('/\s\s+/', ' ',$champ1)) == '"""') continue;
+            $champ1 = trim($champ1);
+            $champ2 = substr($ligne,5,32);
+            if ( $champ2 == false) continue;
+            $champ2 = trim($champ2);
+            $champ3 = trim( substr($ligne,38,9));
+            $champ4 = trim(preg_replace('/\s\s+/', ' ',substr($ligne,47,31) ));
+            $json[] = [
+                'vlan' => $champ1,
+                'name' => $champ2,
+                'status' => $champ3,
+                'ports' => $champ4
+            ];
+        }
+        dd($json);
+
+        return json_encode($json);
 
 //        $lignes = explode("\n", $output);
 //        foreach ( $lignes as $key => $ligne ){
