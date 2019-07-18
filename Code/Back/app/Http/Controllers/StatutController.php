@@ -101,22 +101,31 @@ class StatutController extends Controller
 
 //        $username = 'administrateur';
 //        $password = '2f2S';
-
         $connection = ssh2_connect( $ip, 22);
         ssh2_auth_password($connection, $username, $password);
         $cisco = $cmd;
-        $cisco = str_replace(' ','/',$cmd);
-        $url = "http://$ip/level/15/exec/-/".$cisco;
+        $stream = ssh2_exec($connection, $cisco);
+        $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+        stream_set_blocking($errorStream, true);
+        stream_set_blocking($stream, true);
+        $output = stream_get_contents($stream);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        //curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
-        $out = curl_exec($ch) or die ("connection error");
-        dd($out);
+
+
+//        ssh2_auth_password($connection, $username, $password);
+//        $cisco = $cmd;
+//        $cisco = str_replace(' ','/',$cmd);
+//        $url = "http://$ip/level/15/exec/-/".$cisco;
+//
+//        $ch = curl_init();
+//        curl_setopt($ch, CURLOPT_URL, $url);
+//        //curl_setopt($ch, CURLOPT_POST, true);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+//        curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
+//        $out = curl_exec($ch) or die ("connection error");
+        dd($output);
     }
 }
