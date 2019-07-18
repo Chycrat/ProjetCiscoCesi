@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class StatutController extends Controller
 {
-
+ 
     /**
      * Recuperation de l'etat du router
      * @return \Illuminate\Http\Response
