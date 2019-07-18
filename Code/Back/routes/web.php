@@ -18,6 +18,6 @@ Route::get('/', function () {
 /*
 * statut
 */
-Route::get('/statut/{ip}', 'StatutController@show')->name('statut.show');
+Route::get('/statut/{ip}', 'StatutController@statut')->name('statut.statut');
 Route::get('/cmd/{ip}/{cmd}', 'StatutController@cmd')->name('statut.cmd');
 //Route::get('/console', 'consoleController@show')->name('console.show');
