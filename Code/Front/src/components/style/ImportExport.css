@@ -1,0 +1,17 @@
+.container-margin-status{
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
+.fixed-width-export{
+    width: 400px !important;
+}
+
+.backgroundWhite{
+    background: white !important;
+}
+
+.margin-export{
+    margin-bottom: 30px !important;
+    margin-top: 30px !important;
+}

@@ -1,0 +1,33 @@
+.container-margin-status{
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
+.slot-switch{
+    background: red;
+    border: solid 1.5px black !important;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+#tbody-status{
+    text-align: center;
+}
+.slot-switch-cascade{
+    background: red;
+    border: solid 1.5px black !important;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    color: white !important;
+}
+#informations,#chart-informations{
+    display: none;
+}
+.title-informations-status{
+    margin-bottom: 7px;
+}
+
+.recharts-wrapper {
+    margin : 0 auto !important;
+  }

@@ -1,0 +1,11 @@
+.ui.footer { /* Increased specificity for SO snippet priority */
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #FFF !important;
+  border-top: solid 1px #DEDEDF !important;
+  color: #9999AC !important;
+}
+.item-footer {
+    color: #9999AC !important;
+}

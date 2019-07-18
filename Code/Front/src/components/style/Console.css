@@ -1,0 +1,13 @@
+.terminal{
+    display: block !important;
+    margin-top: 10px;
+    height: 90.35vh;
+}
+
+.center{
+    text-align: center;
+}
+
+#loader{
+    opacity: 0;
+}
