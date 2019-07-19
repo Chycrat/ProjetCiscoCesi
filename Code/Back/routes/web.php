@@ -18,6 +18,20 @@ Route::get('/', function () {
 /*
 * statut
 */
-Route::get('/statut/{ip}', 'StatutController@statut')->name('statut.statut');
-Route::get('/cmd/{ip}/{cmd}', 'StatutController@cmd')->name('statut.cmd');
+//Route::get('/statut/{ip}', 'CiscoController@statut')->name('cisco.statut');
+//Route::get('/cmd/{ip}/{cmd}', 'CiscoController@cmd')->name('cisco.cmd');
+//Route::post('/cossh/{ip}/{port}/{username}/{password}', 'CiscoController@cossh')->name('cisco.cossh');
+//Route::get('/test', 'CiscoController@test')->name('cisco.test');
 //Route::get('/console', 'consoleController@show')->name('console.show');
+
+
+Route::group(['middleware' => ['cors']], function()
+{
+    header('Access-Control-Allow-Origin:  *');
+    header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
+    header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
+    Route::get('/statut/{ip}', 'CiscoController@statut')->name('cisco.statut');
+    Route::get('/cmd/', 'CiscoController@cmd')->name('cisco.cmd');
+    Route::post('/cossh/{ip}/{port}/{username}/{password}', 'CiscoController@cossh')->name('cisco.cossh');
+    Route::get('/test', 'CiscoController@test')->name('cisco.test');
+});

@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/statut', 'CiscoController@statut');
+Route::post('/cmd', 'CiscoController@cmd');
+Route::get('cisco/Test','CiscoController@test');
+Route::post('cossh/', 'CiscoController@cossh');
