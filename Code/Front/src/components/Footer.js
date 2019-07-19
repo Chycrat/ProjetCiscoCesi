@@ -9,7 +9,7 @@ class Footer extends Component {
 
   render(){
     return (
-      <div className="footer">
+      <div className="footer" id="theRealFooter">
         <div class="ui inverted vertical footer segment">
             <div class="ui center aligned container">
                 <div class="ui horizontal inverted small divided link list">

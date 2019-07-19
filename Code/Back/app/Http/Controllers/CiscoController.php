@@ -81,6 +81,11 @@ class CiscoController extends Controller
         stream_set_blocking($errorStream, true);
         stream_set_blocking($stream, true);
         $output = stream_get_contents($stream);
+        $lignes = explode("\n", $output);
+        foreach ( $lignes as $key => $ligne ) {
+            if ($key < 1) continue;
+            if (trim(preg_replace('/\s\s+/', ' ', $ligne)) == '"""' || trim(preg_replace('/\s\s+/', ' ', $ligne)) == 'Port') continue;
+        }
 
         return response()->json([
             'data' => $output
