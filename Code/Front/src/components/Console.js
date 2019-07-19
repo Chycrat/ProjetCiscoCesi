@@ -20,7 +20,7 @@ class Console extends Component {
     if(event.key === 'Enter'){
       document.getElementById("loader").style.opacity = 1;
       
-      axios.post('http://10.1.1.10:8000/api/cmd/', {
+      axios.post('http://10.1.1.1/api/cmd/', {
         cmd : this.state.cmd
       }).then((result) => {
         var test = result.data.data.replace(/(?:\r\n|\r|\n)/g, '<br/>');
