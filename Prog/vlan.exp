@@ -1,0 +1,91 @@
+#!/usr/bin/expect -f
+ 
+# Set variables
+ set hostname 10.1.1.200
+ set username admin
+ set password 3d2R
+ set enablepassword 3d2R
+ set vlan [lindex $argv 0]
+ set nomvlan [lindex $argv 1]
+ set ipvlan [lindex $argv 2] 
+ set masquevlan [lindex $argv 3]
+ #set interface-vlan [lindex $argv 3]
+ #set mode [lindex $argv 4]
+# les logs
+ log_file -a ~/results.log
+ 
+# Announce which device we are working on and at what time
+ send_user "\n"
+ send_user ">>>>>  Working on $hostname @ [exec date] <<<<<\n"
+ send_user "\n"
+ 
+# connexion ssh
+ spawn ssh -o StrictHostKeyChecking=no $username\@$hostname
+ 
+# Autoriser ce script à gérer les problèmes de connexion ssh
+ expect {
+ timeout { send_user "\nTimeout Exceeded - Check Host\n"; exit 1 }
+ eof { send_user "\nSSH Connection To $hostname Failed\n"; exit 1 }
+ "*#" {}
+ "*assword:" {
+ send "$password\n"
+ }
+ }
+ 
+# Si nous ne sommes pas encore en mode d'activation, amenez-nous là
+ expect {
+ default { send_user "\nEnable Mode Failed - Check Password\n"; exit 1 }
+ "*#" {}
+ "*>" {
+ send "enable\n"
+ expect "*assword"
+ send "$enablepassword\n"
+ expect "*#"
+ }
+ }
+ 
+# configuration mode
+ send "conf t\n"
+ expect "(config)#"
+
+# Cree et configurer le VLAN
+send "vlan $vlan\n"
+expect "(config-vlan)#"
+
+send "name $nomvlan\n"
+expect "(config-vlan)#"
+
+send "exit\n"
+expect "(config)#"
+
+send "interface vlan $vlan\n"
+expect "(config-if)" 
+
+send "ip address $ipvlan $masquevlan\n"
+expect "(config-if)"
+
+send "no shut\n" 
+expect "(config-if)"
+
+send "exit\n"
+expect "(config)"
+
+#Affecter l'interface au vlan
+#send "interface range fastEthernet $interface-vlan\n"
+#expect "(config-if-range)"
+
+#send "switchport mode $mode\n"
+#expect "(config-if-range)"
+
+#send "switchport $mode vlan $vlan\n"
+#expect "(config-if-range)"
+
+#send "no shut\n"
+#expect "(config-if-range)"
+
+#send "exit\n" 
+#expect "(config-if)"
+
+exit
+
+interact 
