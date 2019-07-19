@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
@@ -13,10 +14,21 @@ class App extends Component {
     }
   }
   login = () => {
-    sessionStorage.setItem('ip', this.state.ip);
-    sessionStorage.setItem('port', this.state.port);
-    sessionStorage.setItem('username', this.state.username);
-    this.props.history.push('/status');
+    axios.post('http://10.1.1.10:8000/api/cossh/', {
+      ip: this.state.ip,
+      port: this.state.port,
+      username: this.state.username,
+      password: this.state.password
+    }).then((result) => {
+      if(result.data.data.ssh == false){
+        document.getElementById('error-ip').style.opacity = 1;
+      }else{
+        sessionStorage.setItem('ip', this.state.ip);
+        sessionStorage.setItem('port', this.state.port);
+        sessionStorage.setItem('username', this.state.username);
+        this.props.history.push('/status');
+      }
+    });
   }
   handleChangeIP(event) { this.setState({ip: event.target.value});}
   handleChangePort(event) { this.setState({port: event.target.value});}
@@ -28,7 +40,7 @@ class App extends Component {
       <div className="App">
         <div class="ui middle aligned center aligned grid container-login-form">
           <div class="column sub-container-login-form">
-            <form class="ui large form">
+            <div class="ui large form">
               <div class="ui stacked segment">
                 <h2 class="ui teal image header">
                   <img src="./assets/images/logo.png" class="image brand-image-login" />
@@ -55,12 +67,12 @@ class App extends Component {
                 </div>
                 <button class="ui button" onClick={this.login.bind(this)}>Connexion</button>
               </div>
-              <div class="ui negative message">
+              <div class="ui negative message error-ip" id="error-ip">
                 <div class="header">
                   Impossible de se connecter à {this.state.ip}:{this.state.port} 
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

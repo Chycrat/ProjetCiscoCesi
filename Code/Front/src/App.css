@@ -52,3 +52,7 @@
 .input-port-login{
   width: 40px !important;
 }
+
+.error-ip{
+  opacity: 0;
+}
