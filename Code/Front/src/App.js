@@ -14,7 +14,7 @@ class App extends Component {
     }
   }
   login = () => {
-    axios.post('http://10.1.1.10:8000/api/cossh/', {
+    axios.post('http://10.1.1.1/api/cossh/', {
       ip: this.state.ip,
       port: this.state.port,
       username: this.state.username,

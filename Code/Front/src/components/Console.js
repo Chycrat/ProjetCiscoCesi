@@ -64,7 +64,7 @@ class Console extends Component {
           </div>
           <div class="sixteen wide column center"><div class="ui active inline loader" id="loader"></div></div>
           <div class="sixteen wide column center">
-            <div id="result-data"></div>
+            <pre><div id="result-data"></div></pre>
             {this.renderResult(this.state.result)}
           </div>
         </div>
